@@ -17,30 +17,16 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  max-height: 100%;
+  min-height: 100%;
 }
 
 body{
   margin: 0;
   margin-top: 0px;
+  max-height: 100%;
+  min-height: 100%;
 }
-
-#sidepanel__container {
-    position: fixed;
-    min-height: 3000px;
-    width: 80px;
-    background-color: #2c3546;
-    margin: 0 auto;
-    margin-right: 30px;
-    float: left;
-    margin-top: 0;
-  }
-
-  #sidepanel__menu{
-    margin: 0 auto;
-    text-align: center;
-    padding: 20px;
-    margin-top: 20px;
-  }
 
   .sidepanel__menu__icon{
     margin-bottom:30px;

@@ -17,7 +17,7 @@
         class="org__button" -->
         <md-button 
         class="org__button"
-        v-for="webapp in webapps">
+        v-for="webapp in webapps" v-bind:key="webapps.webapp">
           {{webapp.name}}
         </md-button>
       </md-list>

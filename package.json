@@ -12,8 +12,11 @@
   "dependencies": {
     "auth0-js": "^9.2.1",
     "axios": "^0.17.1",
+    "chart.js": "^2.7.2",
+    "element-ui": "^2.2.1",
     "vue": "^2.5.2",
-    "vue-material": "^1.0.0-beta-7",
+    "vue-chartjs": "^3.2.1",
+    "vue-material": "^1.0.0-beta-8",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
