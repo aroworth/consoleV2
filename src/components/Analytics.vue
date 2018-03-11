@@ -4,23 +4,8 @@
       <div id="container__header">
         <h2>Metrics</h2>
       </div>
-      <md-button id="btn__alarms">ALARMS</md-button>
+      <md-button id="btn__alarms" @click="showSidepanel = true">ALARMS</md-button>
       <md-card id="card__graph">
-        
-        <!-- <select class="selectbox__graph" id="selectbox__graph-routes">
-                <option v-for="option in options" v-bind="option">{{option.name}}</option>
-        </select>
-        
-        <select class="selectbox__graph" id="selectbox__graph-time">
-                <option v-for="option in options" v-bind="option">{{option.name}}</option>
-        </select> -->
-        
-        <!-- <select class="selectbox__graph" id="selectbox__graph-instances">
-                <option v-for="time in times"
-            :key="time.value"
-            :label="time.label"
-            :value="time.value">>{{time.label}}</option>
-        </select> -->
         <label id="lbl__graph-instances">Instances:</label>
         <el-select v-model="value" placeholder="Select Time" class="selectbox__graph-instances">
           <el-option
@@ -50,9 +35,12 @@
         </el-select>
         
         <div id="div__response-cbx">
-          <label><span class="checkbox__label">2XX Responses</span></input> <input type="checkbox" class="checkboxflex"></label><br />
+          <!-- <label><span class="checkbox__label">2XX Responses</span></input> <input type="checkbox" class="checkboxflex"></label><br />
           <label><span class="checkbox__label">4XX Responses</span></input> <input type="checkbox" class="checkboxflex"></label><br />
-          <label><span class="checkbox__label">5XX Responses</span></input> <input type="checkbox" class="checkboxflex"></label><br />
+          <label><span class="checkbox__label">5XX Responses</span></input> <input type="checkbox" class="checkboxflex"></label><br /> -->
+          <el-checkbox class="checkbox__label" v-model="checked">5XX</el-checkbox> <br />
+          <el-checkbox class="checkbox__label" v-model="checked">4XX</el-checkbox> <br />
+          <el-checkbox class="checkbox__label" v-model="checked">2XX</el-checkbox> <br />
         </div>
           <div class="Chart">
             <linechart></linechart>
@@ -63,11 +51,41 @@
       <md-card id="card__statushistory">
       </md-card>
       <md-card id="card__routes">
-        <div class="chart__timingbar">
-          <timingbar></timingbar>
-        </div>
+        <el-table
+          :data="tableData3"
+          height="700"
+          style="width: 100%">
+          <el-table-column
+            prop="date"
+            label="Endpoint"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="address"
+            label="Requests"
+            width="100">
+          </el-table-column>
+          <el-table-column
+            label="Average Response Time"
+            width="200">
+            <template slot-scope="timingbar">
+              <div class="timingbar__container">
+              <timingbar :width="300" :height="50"></timingbar>
+              30.1 seconds
+              </div>
+            </template>
+          </el-table-column> 
+          <el-table-column
+            prop="name"
+            label="Status"
+            width="100">
+          </el-table-column>        
+        </el-table>
       </md-card>
-    </div>    
+    </div>
+     <md-drawer class="md-right" :md-active.sync="showSidepanel">
+      
+    </md-drawer>  
   </div>
 </template>
 
@@ -86,6 +104,7 @@
       return {
         // value: serviceinstanceservice.getServerInstance().name,
         instancenames: "",
+        showSidepanel: false,
         routes: "",
         times: [{
           value: 'week',
@@ -103,7 +122,36 @@
           value: '3months',
           label: '3 Months'
         }],
-        value: ''
+        value: '',
+        tableData3: [{
+          date: '/v1/getjobs',
+          name: 'AVAILABLE',
+          address: '100'
+        }, {
+          date: '/v1/getjobs',
+          name: 'AVAILABLE',
+          address: '100'
+        }, {
+          date: '/v1/getjobs',
+          name: 'AVAILABLE',
+          address: '100'
+        }, {
+          date: '/v1/getjobs',
+          name: 'AVAILABLE',
+          address: '100'
+        }, {
+          date: '/v1/getjobs',
+          name: 'AVAILABLE',
+          address: '100'
+        }, {
+          date: '/v1/getjobs',
+          name: 'AVAILABLE',
+          address: '100'
+        }, {
+          date: '/v1/getjobs',
+          name: 'AVAILABLE',
+          address: '100'
+        }]
       }
     }
   }
@@ -111,32 +159,21 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-input[type='checkbox'] {
-    -webkit-appearance: none;
-    width: 15px;
-    height: 15px;
-    background: white;
-    /* border-radius: 5px; */
-    border: 2px solid #555;
+  .Analytics{
+    overflow: hidden;
+    position: relative;
   }
   
-  input[type='checkbox']:checked {
-    background: #abd;
+  .md-drawer {
+    width: 500px;
+    max-width: calc(100vw - 125px);
+    background-color: #fff;
   }
 
   .checkbox__label {
     font-size: 14px;
     margin-left: 10px;
     display: inline-block;
-  }
-
-  input {
-    width: 13px;
-    height: 13px;
-    vertical-align: bottom;
-    position: relative;
-    overflow: hidden;
   }
 
 /* Initiate grid set up 12x10 */ 
@@ -158,18 +195,19 @@ input[type='checkbox'] {
 /* Graph Card - Styles and Sub-grid set up */
   #card__graph{
     grid-column: 1/8;
-    grid-row: 2/9;
+    grid-row: 2/10;
     background-color: white;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(12, 25px);
+    grid-template-rows: repeat(8, 50px);
     padding-top: 10px;
   }
 
   .selectbox__graph-routes{
     grid-column: 3/5;
     grid-row: 2/3;
-    width: 170px;
+    width: 190px;
+    max-height: 30px !important;
   }
 
   .selectbox__graph-time{
@@ -178,7 +216,7 @@ input[type='checkbox'] {
   }
 
   .selectbox__graph-instances{
-    grid-column: 2/3;
+    grid-column: 3/5;
     grid-row: 1/2;
     width: 190px;
   }
@@ -187,6 +225,7 @@ input[type='checkbox'] {
     grid-column: 1/3;
     grid-row: 1/2;
     justify-self: end;
+    align-self: center;
     margin-right: 10px;
   }
 
@@ -194,6 +233,7 @@ input[type='checkbox'] {
     grid-column: 1/3;
     grid-row: 2/3;
     justify-self: end;
+    align-self: center;
     margin-right: 10px;
   }
 
@@ -201,6 +241,7 @@ input[type='checkbox'] {
     grid-column: 6/8;
     grid-row: 1/2;
     justify-self: end;
+    align-self: center;
     margin-right: 10px;
   }
 
@@ -208,17 +249,17 @@ input[type='checkbox'] {
     grid-column: 10/15;
     grid-row: 1/3;
   }
-/* End Graph Card Styles */
+  /* End Graph Card Styles */
 
   #card__status{
     grid-column: 1/4;
-    grid-row: 9/17;
+    grid-row: 10/17;
     background-color: white;
   }
 
   #card__statushistory{
     background-color: white;
-    grid-row: 9/17;
+    grid-row: 10/17;
     grid-column: 4/7;
   }
 
@@ -226,6 +267,22 @@ input[type='checkbox'] {
     grid-column: 8/13;
     grid-row: 2/17;
     background-color: white;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(8, 50px);
+  }
+
+   #card__routes > .chart__timingbar{
+     grid-column: 1/4;
+     grid-row: 1/2;
+  }
+
+  #card__routes > canvas > #horizontalbar-chart{
+    max-height: 50px;
+  }
+  
+  #horizontalbar-chart{
+    height: 10px;
   }
 
   #btn__alarms{
@@ -233,33 +290,15 @@ input[type='checkbox'] {
     grid-row: 1/2;
     background-color: white;
   }
-  .chartjs-size-monitor{
-    
-    max-height: 100px !important;
-    height: 100px;
+
+  #card__graph > .Chart{
+    grid-row: 3/4;
+    grid-column: 1/12;
+    margin-left: 20px;
   }
 
-  canvas#line-chart.chartjs-render-monitor{
-    grid-row: 4/4;
-    grid-column: 1/15;
-    max-height: 100px !important;
-    height: 100px;
+  .timingbar__container{
+    max-height: 50px;
   }
-
-#horizontalbar-chart{
-  max-height: 50px !important;
-}
-
-.Chart{
-  grid-row: 4/4;
-  grid-column: 1/12;
-  max-height: 200px !important;
-  margin-left: 10px;
-}
-
-.chart__timingbar{
-  max-height: 50px;
-}
-
   
 </style>

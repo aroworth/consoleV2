@@ -7,6 +7,9 @@ export default {
       options: {
         scales: {
           yAxes: [{
+            barThickness : 10,
+            categorySpacing: 0,
+            
             ticks: {
               beginAtZero: true
             },
@@ -16,6 +19,8 @@ export default {
           }],
           xAxes: [{
             display: false,
+            barThickness : 10,
+            categorySpacing: 1,
             ticks: {
               beginAtZero: true
             },
@@ -27,8 +32,7 @@ export default {
         legend: {
           display: false
         },
-        responsive: false,
-        height: 50,
+        responsive: true,
         maintainAspectRatio: false
       }
     }
